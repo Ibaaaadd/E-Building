@@ -1,179 +1,182 @@
 @extends('layouts.main')
 
+@section('page-title', 'Tambah Gedung')
+
 @section('contents')
-    <div class="container mt-4">
-        <div class="row justify-content-center">
-            <div class="col-md-12">
-                <div class=" text-center fw-bold" style="padding-bottom: 15px">
-                    <h2 class="text-dark fw-bold m-2">Gedung Baru</h2>
+
+@include('layouts.page-header', [
+    'title'    => 'Tambah Gedung',
+    'subtitle' => 'Tambah data gedung baru',
+    'actions'  => '<a href="' . route('gedung.index') . '" class="btn btn-secondary"><i class="fas fa-arrow-left me-1"></i>Kembali</a>',
+])
+
+<form method="POST" action="{{ route('gedung.store') }}" enctype="multipart/form-data">
+    @csrf
+
+    @if ($errors->any())
+    <div class="alert alert-danger rounded-3 mb-4">
+        <ul class="mb-0">@foreach ($errors->all() as $error)<li>{{ $error }}</li>@endforeach</ul>
+    </div>
+    @endif
+
+    <div class="row g-4">
+
+        <div class="col-12">
+            <div class="card" data-aos="fade-up">
+                <div class="card-header">
+                    <h5><i class="fas fa-info-circle me-2 text-primary"></i>Informasi Gedung</h5>
                 </div>
-                <div class="card mb-3">
-
-                    <div class="card-body">
-                        @if ($errors->any())
-                            <div class="alert alert-danger">
-                                <ul>
-                                    @foreach ($errors->all() as $error)
-                                        <li>{{ $error }}</li>
-                                    @endforeach
-                                </ul>
+                <div class="card-body" style="padding:24px;">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold" for="id_dinas">Dinas <span class="text-danger">*</span></label>
+                            <select class="form-select" id="id_dinas" name="id_dinas" required>
+                                <option value="" disabled selected>— Pilih Dinas —</option>
+                                @foreach ($dinas as $d)
+                                    <option value="{{ $d->id }}" {{ old('id_dinas') == $d->id ? 'selected' : '' }}>{{ $d->nama_dinas }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold" for="id_jenis">Jenis <span class="text-danger">*</span></label>
+                            <select class="form-select" id="id_jenis" name="id_jenis" required>
+                                <option value="" disabled selected>— Pilih Jenis —</option>
+                                @foreach ($jenis as $j)
+                                    <option value="{{ $j->id }}" {{ old('id_jenis') == $j->id ? 'selected' : '' }}>{{ $j->nama }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold" for="nama_gedung">Nama Gedung <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="nama_gedung" name="nama_gedung"
+                                value="{{ old('nama_gedung') }}" placeholder="Masukkan nama gedung" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold" for="alamat_gedung">Alamat</label>
+                            <input type="text" class="form-control" id="alamat_gedung" name="alamat_gedung"
+                                value="{{ old('alamat_gedung') }}" placeholder="Masukkan alamat gedung">
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label fw-semibold">Luas Gedung</label>
+                            <div class="input-group">
+                                <input type="number" class="form-control" name="luas_gedung"
+                                    value="{{ old('luas_gedung') }}" placeholder="0">
+                                <span class="input-group-text">m²</span>
                             </div>
-                        @endif
-
-                        <form method="POST" action="{{ route('gedung.store') }}" enctype="multipart/form-data">
-                            @csrf
-
-                            <!-- Formulir input -->
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group mb-3">
-                                        <label class="mb-2" for="id_dinas"><b>Dinas</b></label>
-                                        <select class="form-control" id="id_dinas" name="id_dinas" required>
-                                            <option value="" disabled selected>-- Pilih dinas --</option>
-                                            @foreach ($dinas as $d)
-                                                <option value="{{ $d->id }}">{{ $d->nama_dinas }}</option>
-                                            @endforeach
-                                        </select>
-                                        @error('id_dinas')
-                                            <div class="text-danger">{{ $message }}</div>
-                                        @enderror
-                                    </div>
-                                </div>
-
-                                <div class="col-md-6">
-                                    <div class="form-group mb-3">
-                                        <label class="mb-2" for="id_jenis"><b>Jenis</b></label>
-                                        <select class="form-control" id="id_jenis" name="id_jenis" required>
-                                            <option value="" disabled selected>-- Pilih Jenis --</option>
-                                            @foreach ($jenis as $j)
-                                                <option value="{{ $j->id }}">{{ $j->nama }}</option>
-                                            @endforeach
-                                        </select>
-                                        @error('id_jenis')
-                                            <div class="text-danger">{{ $message }}</div>
-                                        @enderror
-                                    </div>
-                                </div>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label fw-semibold">Luas Tanah</label>
+                            <div class="input-group">
+                                <input type="number" class="form-control" name="luas_tanah"
+                                    value="{{ old('luas_tanah') }}" placeholder="0">
+                                <span class="input-group-text">m²</span>
                             </div>
-
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group mb-3">
-                                        <label class="mb-2" for="nama_gedung">Nama Gedung</label>
-                                        <input type="text" class="form-control" placeholder="Nama " id="nama_gedung"
-                                            name="nama_gedung" required>
-                                    </div>
-                                </div>
-
-                                <div class="col-md-6">
-                                    <div class="form-group mb-3">
-                                        <label class="mb-2" for="foto_gedung">Foto</label>
-                                        <div class="input-group">
-                                            <input type="file" class="form-control" id="foto_gedung" name="foto_gedung"
-                                                aria-describedby="inputGroupFileAddon02">
-                                            <label class="input-group-text" for="foto_gedung"
-                                                id="inputGroupFileAddon02">Upload</label>
-                                        </div>
-                                    </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold" for="foto_gedung">Foto Gedung</label>
+                            <input type="file" class="form-control" id="foto_gedung" name="foto_gedung" accept="image/*"
+                                onchange="previewFoto(this)">
+                            <div id="foto-preview-wrap" class="mt-2 d-flex align-items-center gap-2" style="display:none!important;">
+                                <img id="foto-preview" src="" alt="Preview" class="rounded"
+                                    style="height:72px;width:72px;object-fit:cover;border:2px solid var(--accent,#f97316);">
+                                <div>
+                                    <div id="foto-preview-name" class="fw-semibold" style="font-size:13px;"></div>
+                                    <button type="button" class="btn btn-sm btn-outline-danger mt-1" onclick="clearFoto()">
+                                        <i class="fas fa-times me-1"></i>Hapus
+                                    </button>
                                 </div>
                             </div>
-
-                            <div class="form-group mb-3">
-                                <label class="mb-2" for="alamat_gedung">Alamat Gedung</label>
-                                <textarea class="form-control" placeholder="Alamat " id="alamat_gedung" name="alamat_gedung"></textarea>
-                            </div>
-
-                            <div class="row">
-                                <label class="mb-2">Luas</label>
-                                <div class="col-md-6">
-                                    <div class="form-group mb-3">
-                                        <div class="input-group">
-                                            <input type="text" class="form-control" placeholder="Gedung" id="luas_gedung"
-                                                name="luas_gedung" aria-label="Luas Gedung"
-                                                aria-describedby="luas_gedung-addon">
-                                            <span class="input-group-text" id="luas_gedung-addon">m²</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group mb-3">
-                                        <div class="input-group">
-                                            <input type="text" class="form-control" placeholder="Tanah" id="luas_tanah"
-                                                name="luas_tanah" aria-label="Luas Tanah"
-                                                aria-describedby="luas_tanah-addon">
-                                            <span class="input-group-text" id="luas_tanah-addon">m²</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="form-group mb-3">
-                                <input type="hidden" class="form-control" id="longitude" name="longitude"
-                                    placeholder="Longitude" required>
-                            </div>
-
-                            <div class="form-group mb-3">
-                                <input type="hidden" class="form-control" id="latitude" name="latitude"
-                                    placeholder="Latitude" required>
-                            </div>
-
-                            <div class="row">
-                                <label class="mb-2" for="latitude">Map</b></label>
-                                <div class="col-md-12">
-                                    <div id="mapid" style="height: 400px;"></div>
-                                </div>
-                            </div>
-                            <div class="form-group mt-3">
-                                <button type="submit" class="btn btn-primary">Submit</button>
-                                <button type="button" href="{{ route('gedung.index') }}" class="btn btn-secondary"
-                                    data-bs-dismiss="modal">Cancel</button>
-                            </div>
-                        </form>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
+
+        {{-- Map full width --}}
+        <div class="col-12">
+            <div class="card" data-aos="fade-up" data-aos-delay="50" style="overflow:visible;">
+                <div class="card-header d-flex align-items-center justify-content-between">
+                    <h5 class="mb-0"><i class="fas fa-map-marker-alt me-2 text-danger"></i>Koordinat Lokasi</h5>
+                    <div id="coord-display" style="font-size:13px;color:#64748b;display:flex;gap:10px;align-items:center;">
+                        <i class="fas fa-crosshairs" style="color:#94a3b8;"></i>
+                        <span>Klik peta untuk menentukan koordinat</span>
+                    </div>
+                </div>
+                <div class="card-body" style="padding:0;overflow:visible;">
+                    <input type="hidden" id="latitude"  name="latitude"  value="{{ old('latitude') }}" required>
+                    <input type="hidden" id="longitude" name="longitude" value="{{ old('longitude') }}" required>
+                    <div id="mapid" style="height:420px;border-radius:0 0 16px 16px;"></div>
+                </div>
+            </div>
+        </div>
+
     </div>
 
-    <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
-    <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+    {{-- Actions --}}
+    <div class="d-flex gap-2 mt-4">
+        <button type="submit" class="btn btn-primary px-4"><i class="fas fa-save me-1"></i>Simpan</button>
+        <a href="{{ route('gedung.index') }}" class="btn btn-secondary px-4">Batal</a>
+    </div>
 
-    <script>
-        // Inisialisasi peta
-        var map = L.map('mapid').setView([-7.2575, 112.7521], 13);
+</form>
 
-        var layer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+<link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
+<script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    var lat = parseFloat(document.getElementById('latitude').value) || -7.2575;
+    var lng = parseFloat(document.getElementById('longitude').value) || 112.7521;
 
-        var marker = null;
-        map.on('click', (event) => {
-            // Hapus marker sebelumnya jika ada
-            if (marker !== null) {
-                map.removeLayer(marker);
-            }
+    var map = L.map('mapid').setView([lat, lng], 13);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '© OpenStreetMap contributors'
+    }).addTo(map);
 
-            // Tambahkan marker baru pada koordinat yang diklik
-            marker = L.marker([event.latlng.lat, event.latlng.lng]).addTo(map);
+    var marker = null;
+    function setMarker(latlng) {
+        if (marker) map.removeLayer(marker);
+        marker = L.marker([latlng.lat, latlng.lng]).addTo(map);
+        document.getElementById('latitude').value  = latlng.lat;
+        document.getElementById('longitude').value = latlng.lng;
+        document.getElementById('coord-display').innerHTML =
+            '<i class="fas fa-map-marker-alt" style="color:#ef4444;"></i>' +
+            '<span><b>Lat:</b> ' + latlng.lat.toFixed(6) + ' &nbsp; <b>Lng:</b> ' + latlng.lng.toFixed(6) + '</span>';
+    }
 
-            // Set nilai latitude dan longitude pada input
-            document.getElementById('latitude').value = event.latlng.lat;
-            document.getElementById('longitude').value = event.latlng.lng;
-        });
+    map.on('click', function(e) { setMarker(e.latlng); });
 
-        var geocoder = L.Control.geocoder({
-            defaultMarkGeocode: false,
-            placeholder: 'Cari Alamat...',
-            collapsed: false
-        }).on('markgeocode', function(e) {
-            var latlng = e.geocode.center;
-            map.setView(latlng, 16);
+    L.Control.geocoder({
+        defaultMarkGeocode: false,
+        placeholder: 'Cari alamat...',
+        collapsed: false
+    }).on('markgeocode', function(e) {
+        var latlng = e.geocode.center;
+        map.setView(latlng, 16);
+        setMarker(latlng);
+    }).addTo(map);
 
-            if (marker !== null) {
-                map.removeLayer(marker);
-            }
+    setTimeout(function() { map.invalidateSize(); }, 200);
+});
+</script>
 
-            marker = L.marker(latlng).addTo(map);
-            document.getElementById('latitude').value = latlng.lat;
-            document.getElementById('longitude').value = latlng.lng;
-        }).addTo(map);
-    </script>
+<script>
+function previewFoto(input) {
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+        reader.onload = function(e) {
+            document.getElementById('foto-preview').src = e.target.result;
+            var wrap = document.getElementById('foto-preview-wrap');
+            wrap.style.cssText = 'display:flex!important;align-items:center;gap:8px;margin-top:8px;';
+            document.getElementById('foto-preview-name').textContent = input.files[0].name;
+        };
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+function clearFoto() {
+    document.getElementById('foto_gedung').value = '';
+    document.getElementById('foto-preview').src = '';
+    document.getElementById('foto-preview-wrap').style.cssText = 'display:none!important;';
+}
+</script>
+
 @endsection
