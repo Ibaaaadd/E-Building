@@ -214,7 +214,7 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('pagination-wrap').style.display = (total === 0) ? 'none' : '';
 
         document.getElementById('results-info').textContent =
-            'Menampilkan ' + (total === 0 ? 0 : start + 1) + '–' + Math.min(end, total) + ' dari ' + total + ' gedung';
+            'Menampilkan ' + (total === 0 ? 0 : start + 1) + ' - ' + Math.min(end, total) + ' dari ' + total + ' gedung';
         document.getElementById('page-info').textContent =
             'Halaman ' + currentPage + ' dari ' + totalPages;
 
