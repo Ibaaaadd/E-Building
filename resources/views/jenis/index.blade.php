@@ -101,7 +101,10 @@ document.addEventListener('DOMContentLoaded', function() {
         </div>
         <div class="mb-3">
             <label class="form-label fw-medium">Foto</label>
-            <input type="file" class="form-control" name="foto">
+            <input type="file" class="form-control" name="foto" accept=".jpg,.jpeg,.png,.gif" onchange="previewImage(this, 'previewEditJenis{{ $jeni->id }}')">
+            <div class="mt-2 text-center">
+                <img id="previewEditJenis{{ $jeni->id }}" src="{{ asset('fotoJenis/' . $jeni->foto) }}" alt="Preview" style="max-width: 100%; max-height: 200px; border-radius: 8px; border: 1px solid #e2e8f0; object-fit: contain;">
+            </div>
         </div>
         <div class="d-flex gap-2">
             <button type="submit" class="btn btn-primary">Simpan</button>
@@ -137,8 +140,11 @@ document.addEventListener('DOMContentLoaded', function() {
             </select>
         </div>
         <div class="mb-3">
-            <label class="form-label fw-medium">Foto</label>
-            <input type="file" class="form-control" name="foto">
+            <label class="form-label fw-medium">Foto (Wajib)</label>
+            <input type="file" class="form-control" name="foto" accept=".jpg,.jpeg,.png,.gif" required onchange="previewImage(this, 'previewCreateJenis')">
+            <div class="mt-2 text-center">
+                <img id="previewCreateJenis" src="" alt="Preview" style="max-width: 100%; max-height: 200px; display: none; border-radius: 8px; border: 1px solid #e2e8f0; object-fit: contain;">
+            </div>
         </div>
         <div class="d-flex gap-2">
             <button type="submit" class="btn btn-primary">Simpan</button>
@@ -148,6 +154,21 @@ document.addEventListener('DOMContentLoaded', function() {
 </x-app-modal>
 
 <script>
+function previewImage(input, previewId) {
+    const preview = document.getElementById(previewId);
+    if (input.files && input.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            preview.src = e.target.result;
+            preview.style.display = 'inline-block';
+        }
+        reader.readAsDataURL(input.files[0]);
+    } else {
+        preview.src = '';
+        preview.style.display = 'none';
+    }
+}
+
 function confirmDelete(id) {
     Swal.fire({
         title: 'Hapus Jenis?',
