@@ -1,163 +1,142 @@
 @extends('layouts.nav2')
 @push('style')
 <style>
-section {
-    margin-top: 150px;
-}
+    :root {
+        --primary-color: #f97316;
+        --primary-dark: #ea6c00;
+        --content-bg: #f1f5f9;
+        --text-primary: #1e293b;
+        --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    }
 
-.jenis .container {
-    margin-right: auto;
-    margin-left: auto;
-    padding-left: 15px;
-    padding-right: 15px;
-}
+    section.jenis {
+        margin-top: 100px;
+        padding: 60px 20px;
+        min-height: calc(100vh - 100px);
+        background-color: var(--content-bg);
+    }
 
-.jenis .image-block {
-    margin-top: 24px;
-    display: flex;
-    flex-wrap: wrap;
-}
+    .jenis .container {
+        margin-right: auto;
+        margin-left: auto;
+        max-width: 1200px;
+    }
 
-.jenis .image-block-inner {
-    border-radius: 10px;
-    box-shadow: 0px 3px 10px 1px rgba(204, 204, 204, 1);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
+    .jenis .title {
+        margin-bottom: 50px;
+    }
 
-.jenis .image-block li>.image-block-inner {
-    padding-bottom: 20px;
-    background-color: #fff;
-    height: 100%;
-}
+    .jenis h3 {
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: var(--text-primary);
+        margin: 0;
+        position: relative;
+        display: inline-block;
+    }
 
-.jenis a {
-    color: #111;
-    text-decoration: none;
-}
+    .jenis h3::after {
+        content: '';
+        position: absolute;
+        bottom: -10px;
+        left: 0;
+        width: 60px;
+        height: 4px;
+        background: var(--primary-color);
+        border-radius: 2px;
+    }
 
-.jenis h2,
-.jenis h4 a {
-    overflow: hidden;
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-}
+    .image-block {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 24px;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
 
-.jenis h3 {
-    font-size: 32px;
-    font-weight: 700;
-}
+    .jenis-item {
+        padding: 0 !important;
+    }
 
-.jenis .img-responsive {
-       height: 200px; 
-    width: 100%;
-    object-fit: cover;
-    transition: transform 0.3s ease;
-    position: relative;
-    overflow: hidden;
-}
+    .image-block-inner {
+        background: white;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: var(--card-shadow);
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+    }
 
-.jenis .image-block-inner:hover {
-    box-shadow: 0px 6px 15px 2px rgba(204, 204, 204, 1);
-}
+    .image-block-inner:hover {
+        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+        transform: translateY(-4px);
+    }
 
-.jenis .image-block-inner:hover h4 {
-    color: #3E58A7; /* Warna teks saat dihover */
-}
+    .image-block-inner>a {
+        display: block;
+        overflow: hidden;
+        flex: 1;
+    }
 
-.jenis .image-block-inner:hover img {
-    transform: scale(1.1);
-}
+    .image-block-inner img {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+        transition: transform 0.4s ease;
+        display: block;
+    }
 
-.jenis .image-block li>.image-block-inner>a {
-    border-radius: 10px;
-    display: block;
-    overflow: hidden;
-}
+    .image-block-inner:hover img {
+        transform: scale(1.08);
+    }
 
-.jenis .image-block li>.image-block-inner>a img {
-  
-    border: 1px solid #e1e1df;
-    position: relative;
-    overflow: hidden;
-}
+    .hp-posts-cat {
+        font-size: 1.25rem;
+        font-weight: 600;
+        color: var(--text-primary);
+        padding: 20px;
+        margin: 0;
+        display: block;
+        text-align: center;
+        transition: color 0.3s ease;
+    }
 
-.jenis .hp-posts-cat {
-    margin-bottom: 8px;
-    margin-top: 20px;
-    text-transform: uppercase;
-    font-weight: 600;
-    font-size: 1rem;
-    letter-spacing: 0.1rem;
-    display: inline-block;
-}
+    .image-block-inner:hover .hp-posts-cat {
+        color: var(--primary-color);
+    }
 
-.jenis {
-    font-family: 'Oswald', sans-serif;
-}
-
-.jenis .image-block li>.image-block-inner h4,
-.hp-posts-cat,
-.jenis .image-block li>.image-block-inner p,
-.read-more {
-    display: table-cell;
-    vertical-align: bottom;
-    padding: 0 28px;
-}
-
-.read-more {
-    display: block;
-    text-decoration: underline;
-    margin-top: 30px;
-    font-weight: 600;
-}
-
-.jenis .pagination > li > a {
-    background-color: white;
-    color: #000000;
-}
-
-.jenis .pagination > li > a:focus,
-.jenis .pagination > li > a:hover,
-.jenis .pagination > li > span:focus,
-.jenis .pagination > li > span:hover {
-    color: #5a5a5a;
-    background-color: #eee;
-    border-color: #ddd;
-}
-
-.jenis .pagination > .active > a {
-    color: white;
-    background-color: #2c588f !important;
-    border: solid 1px #2c588f !important;
-}
-
-.jenis .pagination > .active > a:hover {
-    background-color: #2c588f !important;
-    border: solid 1px #2c588f;
-}
 </style>
 @endpush
 @section('content')
     <section class="jenis pt-0">
         <div class="container mt-md-5">
-            <div class="text-center title">
-                <h3 class="mx-4 my-0 text-center">{{ $data_title }}</h3>
+            <div class="text-center title" data-aos="fade-up">
+                <h3>{{ $data_title }}</h3>
             </div>
-            <ul class="row d-lg-flex list-unstyled image-block justify-content-center px-lg-0 mx-lg-0">
+            
+            @if($data->count() > 0)
+            <ul class="image-block list-unstyled">
                 @foreach($data as $key => $value)
-                <li class="col-lg-3 col-md-5 image-block full-width p-3 jenis-item">
-                    <div class="image-block-inner" style="border-radius:25px;">
-                        <a class="mh-100" href="{{ route('beranda.gedung', [$value->id]) }}">
-                            <img src="https://static.vecteezy.com/system/resources/thumbnails/001/849/553/small_2x/modern-gold-background-free-vector.jpg" alt="penting memilih produk asuransi jiwa dengan eats" class="img-responsive w-100" style="border-top-left-radius: 25px;border-top-right-radius: 25px;height:200px;">
+                <li class="jenis-item" data-aos="fade-up" data-aos-delay="{{ $key * 100 }}">
+                    <div class="image-block-inner">
+                        <a href="{{ route('beranda.gedung', [$value->id]) }}" class="position-relative">
+                            <img src="{{ $value->foto ? asset('fotoGedung/' . $value->foto) : asset('img/sby/bg-landing.jpg') }}" 
+                                alt="{{ $value->nama }}" class="img-responsive" loading="lazy">
                         </a>
-                        <span class="hp-posts-cat">{{ $value->nama_gedung }}</span>
-                        <h4 class="mt-3"><a href="" style="font-size:20px;margin-bottom:1px;">{{ $value->alamat_gedung }}</a></h4>
-                        <!--  <p></p> -->
-                    </div><!-- .image-block-inner -->
+                        <span class="hp-posts-cat">{{ $value->nama }}</span>
+                    </div>
                 </li>
                 @endforeach
             </ul>
+            @else
+            <div class="text-center mt-5" data-aos="fade-up">
+                <img src="{{ asset('img/sby/dprkpp logo.png') }}" width="120" style="opacity: 0.5" class="mb-3">
+                <h4 style="color: #64748b">Belum ada data gedung untuk jenis ini.</h4>
+            </div>
+            @endif
         </div>
     </section>
 @endsection
