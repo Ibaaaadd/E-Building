@@ -8,7 +8,10 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('E-Building', 'E-Building') }}</title>
+    <title>E-Building</title>
+    
+    <!-- Logo Tab -->
+    <link rel="shortcut icon" href="{{ asset('img/sby/dprkpp logo.png') }}" type="image/x-icon">
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.bunny.net">
@@ -30,8 +33,9 @@
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm  fixed-top">
             <div class="container">
-                <a class="navbar-brand" href="{{ url('/') }}">
-                    {{ config('E-Building', 'E-Building') }}
+                <a class="navbar-brand d-flex align-items-center gap-2" href="{{ url('/') }}" style="text-decoration: none;">
+                    <img src="{{ asset('img/sby/dprkpp logo.png') }}" alt="Logo" style="width: 40px; height: 40px; object-fit: contain;">
+                    <span class="logo-text" style="font-size: 22px; font-weight: 700; background: linear-gradient(135deg, #f97316 0%, #fb923c 40%, #22c55e 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; letter-spacing: 0.5px;">eBuilding</span>
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
